@@ -15,6 +15,13 @@ class Package:
         self.status: str = status
         self.shipping_cost: float = self._calculate_cost()
 
+    def __str__(self):
+        return (
+            f"Package ID: {self.package_id}, "
+            f"Shipping cost: {self.shipping_cost}, "
+            f"Status: {self.status}"
+        )
+
     def _calculate_cost(self) -> float:
         return 5 + (1.5 * self.weight)
 
@@ -93,14 +100,17 @@ class LogisticsHub:
 
     def dispatch_fleet(self) -> None:
         for package in self.packages_inventory.values():
-            if package.weight < 5:
-                for vehicle in self.fleet:
-                    if isinstance(vehicle, Drone):
-                        if vehicle.load_package(package):
-                            break
-            else:
+            loaded = False
+            for vehicle in self.fleet:
+                if isinstance(vehicle, Drone):
+                    if vehicle.load_package(package):
+                        loaded = True
+                        break
+            
+            if not loaded:
                 for vehicle in self.fleet:
                     if isinstance(vehicle, DeliveryTruck):
                         if vehicle.load_package(package):
+                            loaded =True
                             break
 
