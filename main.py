@@ -19,15 +19,15 @@ hub.accept_package(package3)
 hub.dispatch_fleet()
 
 print("=====ALL PACKAGES=====")
-for value in hub.packages_inventory.values():
+for value in hub._packages_inventory.values():
     print(value)
 print("========================================")
 
 print("---Drone Packages---")
-for package in drone1.loaded_packages:
+for package in drone1._loaded_packages:
     print(package.package_id)
 print("--------------------")
 
 print("---Truck Packages---")
-for package in truck1.loaded_packages:
+for package in truck1._loaded_packages:
     print(package.package_id)
